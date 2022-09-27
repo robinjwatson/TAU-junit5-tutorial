@@ -1,6 +1,5 @@
 package junit5tests;
 
-
 import org.junit.jupiter.api.*;
 
 @TestMethodOrder(MethodOrderer.MethodName.class)

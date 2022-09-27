@@ -1,10 +1,11 @@
 package junit5tests;
 
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class OrderedTestClass2 {
+public class TaggedTestClass {
 
     @BeforeAll
     public void beforeAll() {
@@ -27,20 +28,31 @@ public class OrderedTestClass2 {
     }
 
     @Test
-    @Order(2)
+    @Tag("sanity")
     public void firstMethod() {
         System.out.println("This is the first test method");
     }
 
     @Test
+    //only one parameter per tag
+    @Tag("sanity")
+    @Tag("acceptance")
     @DisplayName("US1234 - TC12 - this method is the second one")
     public void secondMethod() {
         System.out.println("This is the second test method");
     }
 
     @Test
-    @Order(1)
-    void thirdTest() {
-        System.out.println("This is the third test method");
+    @Tag("acceptance")
+    void thirdMethod() {
+        System.out.println("This is the third method");
     }
+
+    @ParameterizedTest(name = "Run: {index} - value: {arguments}")
+    @Tag("acceptance")
+    @ValueSource(ints = {1, 5, 6})
+    void intValues(int theParam) {
+        System.out.println("theParam = " + theParam);
+    }
+
 }
